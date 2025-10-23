@@ -14,8 +14,8 @@ interface Props {
   searchParams: Promise<{ [key: string]: string }>;
 }
 
-const PostsPage = ({ searchParams }: Props) => {
-  const params = use(searchParams);
+const PostsPage = async ({ searchParams }: Props) => {
+  const params = await searchParams;
   const page = Number(params.page) || 1;
   const postPromise = getAllPosts({ limit: 3, page });
   const totalCountPromise = totalPostsCount();

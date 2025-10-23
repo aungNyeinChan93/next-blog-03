@@ -81,7 +81,7 @@ const Sidebar = ({
 
       <div className="flex-1 p-7">
         <h1 className="text-2xl font-semibold">{title}</h1>
-        <p className="text-gray-600 mt-2">{children}</p>
+        <div className="text-gray-600 mt-2">{children}</div>
       </div>
     </div>
   );

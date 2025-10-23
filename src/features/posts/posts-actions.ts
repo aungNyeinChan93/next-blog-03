@@ -2,6 +2,7 @@
 import { db } from "@/db/drizzle"
 import { postTable } from "@/db/schema"
 import { sql } from "drizzle-orm"
+import { cacheLife } from "next/cache"
 
 
 export type Posts = Awaited<ReturnType<typeof getAllPosts>>
@@ -11,13 +12,10 @@ export async function getAllPosts({ limit = 2, q, page = 1 }: {
     q?: string,
     page?: number
 }) {
-
-
-
+    // 'use cache'
+    // cacheLife('hours')
     const skip = Number(page - 1) * limit
-
     const posts = await db.query.postTable.findMany({
-        // where: () => whereCondition,
         columns: { updated_at: false },
         orderBy: (table, fns) => fns.desc(table.created_at),
         with: {
@@ -34,6 +32,7 @@ export async function getAllPosts({ limit = 2, q, page = 1 }: {
 
 
 export async function totalPostCount() {
+
     const totalResult = await db
         .select({ count: sql<number>`count(*)` })
         .from(postTable);

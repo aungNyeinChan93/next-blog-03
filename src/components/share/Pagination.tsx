@@ -1,6 +1,5 @@
 "use client";
 
-import { get } from "http";
 import Link from "next/link";
 import React from "react";
 
@@ -42,6 +41,7 @@ const Pagination = ({
         </Link>
         {Array.from({ length: totalPage })?.map((_link, idx) => (
           <Link
+            key={idx}
             href={`${baseUrl}?${new URLSearchParams({
               ...searchParams,
               page: String(idx + 1),

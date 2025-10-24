@@ -1,6 +1,8 @@
 'use server'
+
 import { db } from "@/db/drizzle"
 import { postTable } from "@/db/schema"
+import { Post } from "@/lib/zod-schemas/posts-schema"
 import { sql } from "drizzle-orm"
 
 
@@ -11,13 +13,8 @@ export async function getAllPosts({ limit = 2, q, page = 1 }: {
     q?: string,
     page?: number
 }) {
-
-
-
     const skip = Number(page - 1) * limit
-
     const posts = await db.query.postTable.findMany({
-        // where: () => whereCondition,
         columns: { updated_at: false },
         orderBy: (table, fns) => fns.desc(table.created_at),
         with: {
@@ -34,10 +31,20 @@ export async function getAllPosts({ limit = 2, q, page = 1 }: {
 
 
 export async function totalPostCount() {
+
     const totalResult = await db
         .select({ count: sql<number>`count(*)` })
         .from(postTable);
 
     const total = totalResult[0]?.count ?? 0
     return total
+}
+
+
+
+export async function createPostAction(data: Post, user_id: string) {
+    const [result] = await db.insert(postTable).values({ ...data, user_id }).returning({
+        id: postTable.id
+    })
+    return result?.id
 }

@@ -10,6 +10,7 @@ import {
   LogOut,
   Menu,
   X,
+  ClipboardCheck,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -30,6 +31,7 @@ const Sidebar = ({
       path: "/dashboard",
     },
     { title: "Posts", icon: <Scroll size={20} />, path: "/posts" },
+    { title: "Todos", icon: <ClipboardCheck size={20} />, path: "/todos" },
     { title: "Users", icon: <User size={20} />, path: "posts" },
     { title: "Settings", icon: <Settings size={20} />, path: "posts" },
     { title: "Logout", icon: <LogOut size={20} />, path: "posts" },
@@ -81,7 +83,7 @@ const Sidebar = ({
 
       <div className="flex-1 p-7">
         <h1 className="text-2xl font-semibold">{title}</h1>
-        <p className="text-gray-600 mt-2">{children}</p>
+        <div className="text-gray-600 mt-2">{children}</div>
       </div>
     </div>
   );

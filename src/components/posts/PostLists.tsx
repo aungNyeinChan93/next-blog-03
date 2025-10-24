@@ -9,16 +9,17 @@ import { totalPostsCount } from "@/features/posts/posts-utils";
 
 interface Props {
   postsPromise: Promise<Posts>;
-  totalCount: number;
+  totalCountPromise: Promise<Number>;
 }
 
-const PostLists = ({ postsPromise, totalCount }: Props) => {
+const PostLists = ({ postsPromise, totalCountPromise }: Props) => {
   const posts = use(postsPromise);
+  const totalCount = use(totalCountPromise);
 
   const searchParams = useSearchParams();
   const q = searchParams.get("q");
   const page = searchParams.get("page");
-  const limit = 2;
+  const limit = 3;
   const totalPage = Math.max(1, Math.ceil(Number(totalCount) / limit));
 
   return (
@@ -29,7 +30,7 @@ const PostLists = ({ postsPromise, totalCount }: Props) => {
             Array.isArray(posts) &&
             posts?.map((post) => <PostCard key={post?.id} {...post} />)}
         </div>
-        <div>
+        <div className="mt-8">
           <Pagination
             searchParams={{ q: q! }}
             totalPage={totalPage}

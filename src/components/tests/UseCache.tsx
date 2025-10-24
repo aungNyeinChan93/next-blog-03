@@ -14,9 +14,9 @@ async function refreshQuotes() {
 }
 
 const UserCacheTest = async () => {
-  "use cache";
-  cacheTag("quotes");
-  cacheLife("hours");
+  // "use cache";
+  // cacheTag("quotes");
+  // cacheLife("hours");
 
   const quotes = await getAllQuotes();
 

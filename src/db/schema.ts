@@ -1,3 +1,6 @@
 export * from '@/db/schemas/auth-schema'
 export * from '@/db/schemas/post-schema'
 export * from '@/db/schemas/todo-schema'
+export * from '@/db/schemas/article-schema'
+export * from '@/db/schemas/category-schema'
+export * from '@/db/schemas/article_category-schema'

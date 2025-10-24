@@ -5,6 +5,7 @@ import { Card } from "../ui/card";
 import {
   Field,
   FieldContent,
+  FieldDescription,
   FieldError,
   FieldGroup,
   FieldLabel,
@@ -76,12 +77,14 @@ const PostCreateForm = ({ session }: Props) => {
                       <FieldLabel htmlFor={field.name}>
                         {field.name.toUpperCase()}
                       </FieldLabel>
+                      <FieldDescription>Enter Your Title</FieldDescription>
                       {fieldState.error && (
                         <FieldError
                           errors={[{ message: fieldState.error.message }]}
                         />
                       )}
                       <Input
+                        aria-invalid={fieldState.invalid}
                         id={field.name}
                         {...field}
                         type="text"
@@ -106,6 +109,7 @@ const PostCreateForm = ({ session }: Props) => {
                         />
                       )}
                       <Input
+                        aria-invalid={fieldState.invalid}
                         id={field.name}
                         {...field}
                         type="text"

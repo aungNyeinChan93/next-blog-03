@@ -77,12 +77,13 @@ const CreateTodoForm = () => {
                     {errors && (
                       <FieldError
                         className=" capitalize  "
-                        errors={[fieldState.error]}
+                        errors={[{ message: fieldState.error?.message }]}
                       />
                     )}
                     <Input
                       {...field}
                       id={field.name}
+                      aria-invalid={fieldState.invalid}
                       className="h-11"
                       type="text"
                       placeholder="Enter Your Task"

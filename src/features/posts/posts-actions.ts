@@ -2,6 +2,7 @@
 
 import { db } from "@/db/drizzle"
 import { postTable } from "@/db/schema"
+import { Post } from "@/lib/zod-schemas/posts-schema"
 import { sql } from "drizzle-orm"
 
 
@@ -37,4 +38,13 @@ export async function totalPostCount() {
 
     const total = totalResult[0]?.count ?? 0
     return total
+}
+
+
+
+export async function createPostAction(data: Post, user_id: string) {
+    const [result] = await db.insert(postTable).values({ ...data, user_id }).returning({
+        id: postTable.id
+    })
+    return result?.id
 }

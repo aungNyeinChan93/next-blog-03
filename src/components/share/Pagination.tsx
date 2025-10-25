@@ -78,6 +78,7 @@ const Pagination = ({
           </svg>
         </Link>
       </div>
+      {/* <pre>{JSON.stringify(searchParams, null, 2)}</pre> */}
     </React.Fragment>
   );
 };

@@ -140,7 +140,10 @@ const ArticleCreateForm = ({ categories }: Props) => {
             <Controller
               name="categories"
               control={form.control}
-              render={({ field: { onChange, ...field }, fieldState }) => (
+              render={({
+                field: { onChange, onBlur, ...field },
+                fieldState,
+              }) => (
                 <Field data-invalid={fieldState.invalid}>
                   <FieldContent>
                     <FieldLabel htmlFor={field.name}>Categories</FieldLabel>
@@ -150,7 +153,7 @@ const ArticleCreateForm = ({ categories }: Props) => {
                     <FieldDescription>Enter Your Categories</FieldDescription>
                   </FieldContent>
                   <Select {...field} onValueChange={onChange}>
-                    <SelectTrigger className="w-[180px]">
+                    <SelectTrigger onBlur={onBlur} className="w-[180px]">
                       <SelectValue placeholder="Categories" />
                     </SelectTrigger>
                     <SelectContent>

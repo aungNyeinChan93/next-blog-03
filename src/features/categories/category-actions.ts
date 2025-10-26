@@ -3,7 +3,6 @@
 import { db } from "@/db/drizzle"
 import { categoryTable } from "@/db/schema"
 import { Category } from "@/lib/zod-schemas/category-schema"
-import { count } from "console"
 import { sql } from "drizzle-orm"
 
 
@@ -38,4 +37,12 @@ export async function getTotalCategoryCount() {
     return totalCount[0]?.count || 0
 }
 
+
+
+export async function getCategoryById(categoryId: string) {
+    const category = await db.query.categoryTable.findFirst({
+        where: (table, fns) => fns.eq(table?.id, categoryId)
+    })
+    return category
+}
 

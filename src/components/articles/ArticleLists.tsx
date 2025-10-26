@@ -1,4 +1,5 @@
 import {
+  type ArticlesWithAuthorAndCategory,
   getAllArticles,
   getArticleTotalCount,
 } from "@/features/articles/article-actions";
@@ -7,6 +8,7 @@ import Pagination from "../share/Pagination";
 import ArticleCard from "./ArticleCard";
 import { Card } from "../ui/card";
 import Link from "next/link";
+import { json } from "zod";
 
 interface Props {
   page: number;
@@ -14,8 +16,11 @@ interface Props {
 }
 
 const ArticleList = async ({ page, searchParams }: Props) => {
-  const limit = 8;
-  const articles = await getAllArticles({ page, limit });
+  const limit = 6;
+  const articles: ArticlesWithAuthorAndCategory = await getAllArticles({
+    page,
+    limit,
+  });
   const articleTotalCount = await getArticleTotalCount();
 
   const totalPages = Math.max(1, Math.ceil(articleTotalCount / limit));
@@ -33,7 +38,7 @@ const ArticleList = async ({ page, searchParams }: Props) => {
             </div>
           </Card>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           {Array.isArray(articles) &&
             articles?.map((article) => (
               <ArticleCard key={article.id} {...article} />

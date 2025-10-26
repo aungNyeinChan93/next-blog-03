@@ -1,6 +1,7 @@
 import { relations } from "drizzle-orm";
 import { index, pgTable, text, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
 import { articletable } from "./article-schema";
+import { articleCategoryTable } from "./article_category-schema";
 
 
 export const categoryTable = pgTable('categories', {
@@ -17,5 +18,5 @@ export const categoryTable = pgTable('categories', {
 
 
 export const categoryRelations = relations(categoryTable, ({ many, one }) => ({
-    articles: many(articletable)
+    articles: many(articleCategoryTable)
 }))

@@ -10,6 +10,13 @@ import {
   FieldGroup,
   FieldLabel,
 } from "../ui/field";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Input } from "../ui/input";
 import { Controller, useForm } from "react-hook-form";
 import { ArticleSchema, type Article } from "@/lib/zod-schemas/aarticle-schema";
@@ -18,17 +25,28 @@ import { Textarea } from "../ui/textarea";
 import { Button } from "../ui/button";
 import { useSession } from "@/lib/auth-client";
 import toast from "react-hot-toast";
-import { createArticleAction } from "@/features/articles/article-actions";
+import {
+  createArticleAction,
+  createArticleAndCategory,
+} from "@/features/articles/article-actions";
 import { useRouter } from "next/navigation";
+import { Category } from "@/lib/zod-schemas/category-schema";
+import { CategoriesWithArticles } from "@/features/categories/category-actions";
 
-const ArticleCreateForm = () => {
+interface Props {
+  categories: CategoriesWithArticles;
+}
+
+const ArticleCreateForm = ({ categories }: Props) => {
   const router = useRouter();
   const { data } = useSession();
   const author_id = data?.user?.id || "";
+
   const form = useForm<Article>({
     defaultValues: {
       title: "",
       body: "",
+      categories: "",
     },
     resolver: zodResolver(ArticleSchema),
   });
@@ -49,7 +67,12 @@ const ArticleCreateForm = () => {
 
     try {
       const newArticleId = await createArticleAction(fields, author_id);
-      if (newArticleId != null) {
+      const isSuccess = await createArticleAndCategory(
+        newArticleId as string,
+        fields["categories"] as string
+      );
+
+      if (newArticleId != null && isSuccess) {
         form.reset();
         toast.success("Artcle successfully created!", { duration: 3000 });
         router.refresh();
@@ -111,6 +134,33 @@ const ArticleCreateForm = () => {
                       placeholder="Body ... "
                     />
                   </FieldContent>
+                </Field>
+              )}
+            />
+            <Controller
+              name="categories"
+              control={form.control}
+              render={({ field: { onChange, ...field }, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <FieldContent>
+                    <FieldLabel htmlFor={field.name}>Categories</FieldLabel>
+                    <FieldError
+                      errors={[{ message: fieldState.error?.message }]}
+                    />
+                    <FieldDescription>Enter Your Categories</FieldDescription>
+                  </FieldContent>
+                  <Select {...field} onValueChange={onChange}>
+                    <SelectTrigger className="w-[180px]">
+                      <SelectValue placeholder="Categories" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {categories?.map((category) => (
+                        <SelectItem key={category.id} value={category.id}>
+                          {category.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </Field>
               )}
             />

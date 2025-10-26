@@ -2,6 +2,7 @@ import { index, pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
 import { user } from "./auth-schema";
 import { relations } from "drizzle-orm";
 import { categoryTable } from "./category-schema";
+import { articleCategoryTable } from "./article_category-schema";
 
 
 export const articletable = pgTable('articles', {
@@ -21,5 +22,5 @@ export const articleRelations = relations(articletable, ({ many, one }) => ({
         fields: [articletable.author_id],
         references: [user?.id]
     }),
-    categories: many(categoryTable)
+    categories: many(articleCategoryTable)
 }))

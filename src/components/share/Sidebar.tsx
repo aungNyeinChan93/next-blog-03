@@ -12,6 +12,7 @@ import {
   X,
   ClipboardCheck,
   DiamondPlus,
+  BookA,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -38,6 +39,7 @@ const Sidebar = ({
       icon: <DiamondPlus size={20} />,
       path: "/categories",
     },
+    { title: "Articles", icon: <BookA size={20} />, path: "/articles" },
     { title: "Users", icon: <User size={20} />, path: "posts" },
     { title: "Settings", icon: <Settings size={20} />, path: "posts" },
     { title: "Logout", icon: <LogOut size={20} />, path: "posts" },
